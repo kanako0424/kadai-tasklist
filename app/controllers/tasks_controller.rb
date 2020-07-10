@@ -1,4 +1,5 @@
 class TasksController < ApplicationController
+  before_action :set_message, only: [:show, :edit, :update, :destroy]
   def index
       @tasks = Task.all
       #Task はapp/models/task.rbで定義されたクラス名
@@ -7,8 +8,6 @@ class TasksController < ApplicationController
   end
 
   def show
-    @task = Task.find(params[:id])
-    #URLのパラメータやデータは全部paramsに代入されて受け取れる。
   end
 
   def new
@@ -31,12 +30,9 @@ class TasksController < ApplicationController
   end
 
   def edit
-    @task = Task.find(params[:id])
   end
 
   def update
-    @task = Task.find(params[:id])
-    
     if @task.update(task_params)
       flash[:success] = 'タスクは正常に更新されました'
       redirect_to @task
@@ -47,7 +43,6 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    @task = Task.find(params[:id])
     @task.destroy
     
     flash[:success] = "タスクは正常に削除されました"
@@ -63,6 +58,12 @@ class TasksController < ApplicationController
   #requireで Task モデルのフォームから得られるデータに関するものだと明示
   #permitで必要なカラムだけを選択する
   #strong parameterがないとセキュリティ上よくない
+  
+  def set_task
+    @task = Task.find(params[:id])
+    #URLのパラメータやデータは全部paramsに代入されて受け取れる。
+  end
+  
   def task_params
     params.require(:task).permit(:content)
   end
