@@ -50,7 +50,7 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
     @task.destroy
     
-    flash[:success] = "Messageは正常に削除されました"
+    flash[:success] = "タスクは正常に削除されました"
     redirect_to tasks_url
     #requetを発生する。アンカータグと同じ
     #相対パスをいれる。
