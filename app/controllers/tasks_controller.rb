@@ -52,6 +52,9 @@ class TasksController < ApplicationController
     
     flash[:success] = "Messageは正常に削除されました"
     redirect_to tasks_url
+    #requetを発生する。アンカータグと同じ
+    #相対パスをいれる。
+    #redirect_toは_pathでもいけるけど、よく使うのは_url
   end
   
   private 
