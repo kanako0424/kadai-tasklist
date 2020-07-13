@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
-  before_action :set_message, only: [:show, :edit, :update, :destroy]
+  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  
   def index
       @tasks = Task.all
       #Task はapp/models/task.rbで定義されたクラス名
@@ -24,7 +25,7 @@ class TasksController < ApplicationController
       flash[:success] = "タスクが正常に投稿されました"
       redirect_to @task
     else 
-      flash[:danger] = "タスクが投稿されませんでした"
+      flash.now[:danger] = "タスクが投稿されませんでした"
       render :new
     end
   end
@@ -37,7 +38,7 @@ class TasksController < ApplicationController
       flash[:success] = 'タスクは正常に更新されました'
       redirect_to @task
     else
-      flash[:danger] = "タスクは更新されませんでした"
+      flash.now[:danger] = "タスクは更新されませんでした"
       render :edit
     end
   end
@@ -65,7 +66,7 @@ class TasksController < ApplicationController
   end
   
   def task_params
-    params.require(:task).permit(:content)
+    params.require(:task).permit(:content, :status)
   end
   
 end
