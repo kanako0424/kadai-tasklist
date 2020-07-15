@@ -14,6 +14,8 @@ content カラムの値を表示している　-->
 
 </ul>
 
+<%= paginate @tasks %>
+
 <%= link_to '新しいタスクを追加する', new_task_path %>
 <!--hmtlだったらlink_toでは_urlを使う
 外部リンクが必要な場合は、直接urlを書く

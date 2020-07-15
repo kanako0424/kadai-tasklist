@@ -2,7 +2,7 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   
   def index
-      @tasks = Task.all
+      @tasks = Task.order(id: :desc).page(params[:page]).per(20)
       #Task はapp/models/task.rbで定義されたクラス名
       #Task を使うことで継承されたクラスも使える。
       #それにより、rails のモデル操作がここでできる。
