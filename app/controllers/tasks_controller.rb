@@ -1,9 +1,13 @@
 class TasksController < ApplicationController
-  before_action :require_user_logged_in, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+  before_action :require_user_logged_in
+  before_action :correct_user, only: [:destroy]
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   
   def index
-      @tasks = Task.order(id: :desc).page(params[:page]).per(20)
+    if logged_in?
+      @task = current_user.tasks.build
+      @tasks = current_user.tasks.order(id: :desc).page(params[:page]).per(20)
+    end
       #Task はapp/models/task.rbで定義されたクラス名
       #Task を使うことで継承されたクラスも使える。
       #それにより、rails のモデル操作がここでできる。
@@ -17,14 +21,14 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.build(task_params)
     #task_paramsは下のstrong parameterについてのもの
     #これで、Task.new(content: '...')となる
     
     if @task.save
       #@task.saveは成功するとtrue、失敗するとfalseを返すので条件分岐をする
       flash[:success] = "タスクが正常に投稿されました"
-      redirect_to @task
+      redirect_to root_url
     else 
       flash.now[:danger] = "タスクが投稿されませんでした"
       render :new
@@ -48,7 +52,7 @@ class TasksController < ApplicationController
     @task.destroy
     
     flash[:success] = "タスクは正常に削除されました"
-    redirect_to tasks_url
+    redirect_to root_url
     #requetを発生する。アンカータグと同じ
     #相対パスをいれる。
     #redirect_toは_pathでもいけるけど、よく使うのは_url
@@ -68,6 +72,13 @@ class TasksController < ApplicationController
   
   def task_params
     params.require(:task).permit(:content, :status)
+  end
+  
+  def correct_user
+    @task = current_user.tasks.find_by(id: params[:id])
+    unless @task
+      redirect_to root_url
+    end
   end
   
 end

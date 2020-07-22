@@ -2,7 +2,6 @@
    <% if logged_in? %>
      <%= link_to 'Your tasks', tasks_url%>
      <%= current_user.name %>
-     <%= link_to 'My profile', users_path(current_user) %>
      <%= link_to 'Logout', logout_path, method: :delete %>
    <% else %>
       <a href="/">Microposts</a>
