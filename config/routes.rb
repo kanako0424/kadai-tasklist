@@ -1,10 +1,6 @@
 Rails.application.routes.draw do
   root to: 'tasks#index'
   
-  get 'sessions/new'
-  get 'sessions/create'
-  get 'sessions/destroy'
-  
   get 'users/new'
   get 'users/create'
   
