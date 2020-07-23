@@ -2,7 +2,7 @@ class TasksController < ApplicationController
   before_action :require_user_logged_in
   before_action :correct_user, only: [:show, :edit, :update, :destroy
   ]
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  #before_action :set_task, only: [:show, :edit, :update, :destroy]
   
   def index
     if logged_in?
@@ -66,10 +66,10 @@ class TasksController < ApplicationController
   #permitで必要なカラムだけを選択する
   #strong parameterがないとセキュリティ上よくない
   
-  def set_task
-    @task = Task.find(params[:id])
+  #def set_task
+   # @task = Task.find(params[:id])
     #URLのパラメータやデータは全部paramsに代入されて受け取れる。
-  end
+  #end
   
   def task_params
     params.require(:task).permit(:content, :status)
